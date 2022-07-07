@@ -86,8 +86,12 @@ function checkAnswer(event) {
   showQuestions(questions);
 }
 
+if (currentQuestion === questions.length) {
+  quizEnd();
+}
+
 function quizEnd() {
-  //  need to stop timer where it is at for score!
+  clearInterval(time);
 }
 
 // Once the questions are over and the timer is stopped for the score, we need to submit,
