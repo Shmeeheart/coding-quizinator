@@ -101,29 +101,38 @@ function quizEnd() {
   timerEl.style.display = 'none';
   //display the final score
   quizArea.innerHTML = `<h2>You got ${timeRemaining} points!`;
+  submitScore(timeRemaining);
+}
+
+function submitScore(timeRemaining) {
   //create input for name with a placeholder
   var input = document.createElement('input');
   input.setAttribute('type', 'text');
   input.setAttribute('placeholder', 'Enter your name');
   input.setAttribute('id', 'name');
   quizArea.append(input);
+
   //create button to submit name
   var submitButton = document.createElement('button');
   submitButton.textContent = 'Submit';
   submitButton.setAttribute('id', 'submit');
   quizArea.append(submitButton);
+
   //save name and timeRemaining to local storage on click of the submit button
   submitButton.addEventListener('click', function () {
     //we get the value of the name input
     var name = document.getElementById('name').value;
     var score = timeRemaining;
     //we create an object with the name and score
-    var highScores = JSON.parse(localStorage.getItem('highScores')) || [];
-    highScores.push({
+    var highscoresStorage =
+      JSON.parse(localStorage.getItem('highscores')) || [];
+
+    highscoresStorage.push({
       name: name,
       score: score,
     });
-    //then set the high scores to the highScores object we just created in localStorage
-    localStorage.setItem('highScores', JSON.stringify(highScores));
+
+    //then set the high scores to the highscoresStorage array we just created in localStorage
+    localStorage.setItem('highscores', JSON.stringify(highscoresStorage));
   });
 }
