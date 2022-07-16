@@ -1,5 +1,6 @@
 var quizArea = document.getElementById('quiz');
 var startButton = document.getElementById('start');
+var interval;
 startButton.addEventListener('click', startQuiz);
 
 var questions = [
@@ -43,20 +44,20 @@ var time = questions.length * 15;
 var timerEl = document.getElementById('timer');
 
 function startQuiz() {
-  timer();
+  startTimer();
   showQuestions(questions);
 }
 
-function timer() {
-  var interval = setInterval(function () {
-    if (time > 0) {
-      timerEl.textContent = time;
-      time--;
-      console.log(time);
-    } else {
-      clearInterval(interval);
-    }
+function startTimer() {
+  interval = setInterval(function () {
+    timerEl.textContent = time;
+    time--;
+    console.log(time);
   }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(interval);
 }
 
 function showQuestions(questions) {
@@ -74,6 +75,7 @@ function showQuestions(questions) {
     }
   } else {
     quizArea.innerHTML = '<h2>You have finished the quiz!</h2>';
+    quizEnd();
   }
 }
 
@@ -91,13 +93,10 @@ function checkAnswer(event) {
   showQuestions(questions);
 }
 
-if (currentQuestion === questions.length) {
-  quizEnd();
-}
-
 function quizEnd() {
   //store remaining time in a variable
   var timeRemaining = time;
+  stopTimer();
   //display none timerEl
   timerEl.style.display = 'none';
   //display the final score
