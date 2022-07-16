@@ -118,12 +118,12 @@ function quizEnd() {
     var name = document.getElementById('name').value;
     var score = timeRemaining;
     //we create an object with the name and score
-    var highScores = JSON.parse(localStorage.getItem('highScores')) || [];
-    highScores.push({
+    var highscores = JSON.parse(localStorage.getItem('highscores')) || [];
+    highscores.push({
       name: name,
       score: score,
     });
-    //then set the high scores to the highScores object we just created in localStorage
-    localStorage.setItem('highScores', JSON.stringify(highScores));
+    //then set the high scores to the highscores object we just created in localStorage
+    localStorage.setItem('highscores', JSON.stringify(highscores));
   });
 }
