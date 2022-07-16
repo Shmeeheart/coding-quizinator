@@ -1,12 +1,12 @@
 function printHighscores() {
-  var highScores = JSON.parse(window.localStorage.getItem('highScores')) || [];
-  var highScoresEl = document.getElementById('highScores');
+  var highscores = JSON.parse(window.localStorage.getItem('highscores')) || [];
+  var highscoresEl = document.getElementById('highscores');
 
-  highScores.forEach(function (score) {
+  highscores.forEach(function (score) {
     var li = document.createElement('li');
     li.textContent = score.name + ': ' + score.score;
-    highScoresEl.appendChild(li);
+    highscoresEl.appendChild(li);
   });
 }
 
-printhighScores();
+printHighscores();
