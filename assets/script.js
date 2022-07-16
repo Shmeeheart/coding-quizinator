@@ -60,18 +60,23 @@ function timer() {
 }
 
 function showQuestions(questions) {
-  quizArea.innerHTML = '';
-  var questionText = document.createElement('p');
-  questionText.textContent = questions[currentQuestion].questionText;
-  quizArea.append(questionText);
-  for (var i = 0; i < questions[currentQuestion].choices.length; i++) {
-    var button = document.createElement('button');
-    button.textContent = questions[currentQuestion].choices[i];
-    button.classList.add('answer-button');
-    button.addEventListener('click', checkAnswer);
-    quizArea.append(button);
+  if (currentQuestion < questions.length) {
+    quizArea.innerHTML = '';
+    var questionText = document.createElement('p');
+    questionText.textContent = questions[currentQuestion].questionText;
+    quizArea.append(questionText);
+    for (var i = 0; i < questions[currentQuestion].choices.length; i++) {
+      var button = document.createElement('button');
+      button.textContent = questions[currentQuestion].choices[i];
+      button.classList.add('answer-button');
+      button.addEventListener('click', checkAnswer);
+      quizArea.append(button);
+    }
+  } else {
+    quizArea.innerHTML = '<h2>You have finished the quiz!</h2>';
   }
 }
+
 function checkAnswer(event) {
   var userChoice = event.target.innerText;
   var correctAnswer = questions[currentQuestion].answer;
@@ -91,34 +96,35 @@ if (currentQuestion === questions.length) {
 }
 
 function quizEnd() {
-  clearInterval(time);
+  //store remaining time in a variable
+  var timeRemaining = time;
+  //display none timerEl
+  timerEl.style.display = 'none';
+  //display the final score
+  quizArea.innerHTML = `<h2>You got ${timeRemaining} points!`;
+  //create input for name with a placeholder
+  var input = document.createElement('input');
+  input.setAttribute('type', 'text');
+  input.setAttribute('placeholder', 'Enter your name');
+  input.setAttribute('id', 'name');
+  quizArea.append(input);
+  //create button to submit name
+  var submitButton = document.createElement('button');
+  submitButton.textContent = 'Submit';
+  submitButton.setAttribute('id', 'submit');
+  quizArea.append(submitButton);
+  //save name and timeRemaining to local storage on click of the submit button
+  submitButton.addEventListener('click', function () {
+    //we get the value of the name input
+    var name = document.getElementById('name').value;
+    var score = timeRemaining;
+    //we create an object with the name and score
+    var highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    highScores.push({
+      name: name,
+      score: score,
+    });
+    //then set the high scores to the highScores object we just created in localStorage
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+  });
 }
-
-// Once the questions are over and the timer is stopped for the score, we need to submit,
-// view our scores, type in our initials and have the score saved to local storage so we can have
-// it listed on our high scores list
-
-// var resultsEl = document.getElementById('results');
-// resultsEl.textContent = time;
-
-// var submitButton = document.getElementById('submit');
-// submitButton.addEventListener('click', getResults);
-
-// function getResults() {
-//   var initials = initialsEl.value.trim();
-
-//   if (initials !== '') {
-//     var highscores =
-//       JSON.parse(window.localStorage.getItem('highscores')) || [];
-
-//     var newScore = {
-//       score: time,
-//       initials: initials,
-//     };
-
-//     highscores.push(newScore);
-//     window.localStorage.setItem('highscores', highscores);
-
-//     window.location.href = 'score.html';
-//   }
-// }
